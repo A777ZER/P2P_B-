@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: neural-invoice-api
+    ports:
+      - "8030:8030"
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: neural-invoice-bot
+    depends_on:
+      - api
+    env_file:
+      - .env
+    restart: unless-stopped
